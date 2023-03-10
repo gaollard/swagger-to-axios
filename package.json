@@ -1,14 +1,37 @@
 {
-  "name": "swagger-doc-to-axios",
-  "version": "1.0.0",
-  "description": "",
+  "name": "sjta",
+  "version": "1.0.5",
+  "description": "swagger json to axios",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc"
   },
-  "author": "",
+  "bin": {
+    "sjta": "./bin/sjta"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wiiai/swagger-doc-to-axios"
+  },
+  "keywords": ["swagger", "json", "axios"],
+  "author": "gaollard",
+  "files": [
+    "bin",
+    "dist",
+    "lib"
+  ],
   "license": "ISC",
   "dependencies": {
+    "commander": "^10.0.0",
+    "fs-extra": "^11.1.0",
+    "request": "^2.88.2"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^11.0.1",
+    "@types/request": "^2.48.8",
+    "@types/node": "^18.15.0",
+    "ts-node": "^10.9.1",
     "typescript": "^4.9.5"
   }
 }

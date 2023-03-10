@@ -1,0 +1,13 @@
+#!/usr/bin/env node
+const { program } = require('commander');
+
+program
+  .option('-o, --outDir <type>', 'output extra debugging')
+  .option('-s, --source <type>', 'small pizza size')
+
+program.parse(process.argv);
+
+const options = program.opts();
+const {run} = require('../dist/index.js');
+
+run(options)
