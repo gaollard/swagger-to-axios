@@ -13,14 +13,14 @@
 局部安装：
 ```shell
 # 安装
-yarn add wjta
+yarn add sjta
 # 使用
 npx sjta -o example/auto-service -s "http://task.airtlab.com/static/document.json"
 ```
 
 全局安装：
 ```shell
-yarn add wjta -g
+yarn add sjta -g
 sjta -o example/auto-service -s "http://task.airtlab.com/static/document.json"
 ```
 
