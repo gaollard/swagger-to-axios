@@ -14,10 +14,19 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.run = void 0;
 const fs_extra_1 = __importDefault(require("fs-extra"));
+const path_1 = __importDefault(require("path"));
 const fetch_json_1 = require("./fetch-json");
-function run({ outDir, source, }) {
+let importRequest = `import { request } from "@/utils/request"`;
+let swaggerJson;
+let outDir;
+let source;
+function run(param) {
     return __awaiter(this, void 0, void 0, function* () {
-        let swaggerJson = (yield (0, fetch_json_1.fetchJson)(source));
+        outDir = param.outDir;
+        source = param.source;
+        importRequest = param.banner || importRequest;
+        swaggerJson = (yield (0, fetch_json_1.fetchJson)(source));
+        fs_extra_1.default.removeSync(outDir);
         fs_extra_1.default.mkdirpSync(outDir);
         const tagMap = {
             default: [],
@@ -31,59 +40,40 @@ function run({ outDir, source, }) {
                 list.push(`export ${reqModel}\n`);
                 list.push(`export ${resModel}\n`);
                 list.push(`export const ${name} = (params: ${reqModelName}) => {
-    return request<${resModelName}>({
-      url: "${url}",
-      method: "${method}",
-      data: params
-    });\n}`);
+  return request<${resModelName}>({
+    url: "${url}",
+    method: "${method}",
+    data: params
+  });\n}`);
             }
             else if (reqModel) {
                 list.push(`export ${reqModel}\n`);
                 list.push(`export const ${name} = (params: ${reqModelName}) => {
-    return request<{}>({
-      url: "${url}",
-      method: "${method}",
-      data: params
-    });\n}`);
+  return request<{}>({
+    url: "${url}",
+    method: "${method}",
+    data: params
+  });\n}`);
             }
             else if (resModel) {
                 list.push(`export ${resModel}\n`);
                 list.push(`export const ${name} = (params: {}) => {
-    return request<${resModelName}>({
-      url: "${url}",
-      method: "${method}",
-      data: params
-    });\n}`);
+  return request<${resModelName}>({
+    url: "${url}",
+    method: "${method}",
+    data: params
+  });\n}`);
             }
             else {
                 list.push(`export const ${name} = (params: {}) => {
-    return request<{}>({
-      url: "${url}",
-      method: "${method}",
-      data: params
-    });\n}`);
+  return request<{}>({
+    url: "${url}",
+    method: "${method}",
+    data: params
+  });\n}`);
             }
             return list.join("\n");
         };
-        function parseRequestParams(path) {
-            const paths = path.replace("#/", "").split("/");
-            let res = swaggerJson;
-            let index = 0;
-            while (index < paths.length) {
-                res = res[paths[index]];
-                index++;
-            }
-            const { properties } = res;
-            let list = [];
-            Object.keys(properties).forEach((key) => {
-                list.push(`  ${key}: ${properties[key].type};`);
-            });
-            const name = paths[paths.length - 1];
-            return {
-                name: paths[paths.length - 1],
-                content: `interface ${name} {\n${list.join("\n")}\n}`,
-            };
-        }
         apiPaths.forEach((apiPath) => {
             const pathConf = apiPathMap[apiPath];
             Object.keys(pathConf).forEach((method) => {
@@ -114,9 +104,61 @@ function run({ outDir, source, }) {
             });
         });
         Object.keys(tagMap).forEach((tag) => {
-            fs_extra_1.default.writeFileSync(`${outDir}/${tag}.ts`, `import { request } from "@/utils/request";\n\n` +
-                tagMap[tag].join("\n\n"));
+            fs_extra_1.default.writeFileSync(`${outDir}/${tag}.ts`, `${importRequest};\n\n` + tagMap[tag].join("\n\n"));
         });
     });
 }
 exports.run = run;
+/**
+ * @description 解析 type schema
+ * @param path
+ * @returns
+ */
+function parseRequestParams(_path) {
+    const paths = _path.replace("#/", "").split("/");
+    let res = swaggerJson;
+    let index = 0;
+    while (index < paths.length) {
+        res = res[paths[index]];
+        index++;
+    }
+    const name = paths[paths.length - 1];
+    const { properties, type, required } = res;
+    let list = [];
+    Object.keys(properties).forEach((key) => {
+        const isRequired = (required || []).includes(key);
+        if (properties[key].type === "array") {
+            // 数组类型
+            if (properties[key].items && properties[key].items.$ref) {
+                const it = parseRequestParams(properties[key].items.$ref);
+                list.push(`  ${key}${isRequired ? "" : "?"}: ${it.declare}[];`);
+            }
+            else {
+                list.push(`  ${key}${isRequired ? "" : "?"}: any[];`);
+            }
+        }
+        else if (properties[key].type === "object") {
+            // 对象类型
+            if (properties[key].items.$ref) {
+                const it = parseRequestParams(properties[key].items.$ref);
+                list.push(`  ${key}${isRequired ? "" : "?"}: ${it.declare};`);
+            }
+            else {
+                list.push(`  ${key}${isRequired ? "" : "?"}: {};`);
+            }
+        }
+        else {
+            // 基本类型类型
+            list.push(`  ${key}${isRequired ? "" : "?"}: ${properties[key].type};`);
+        }
+    });
+    const content = `interface ${name} {\n${list.join("\n")}\n}`;
+    fs_extra_1.default.writeFileSync(path_1.default.resolve(process.cwd(), outDir, "types.ts"), "export " + content + "\n\n", {
+        flag: "a",
+    });
+    return {
+        name,
+        content,
+        declare: `{\n${list.join("\n")}\n}`,
+    };
+}

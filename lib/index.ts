@@ -1,16 +1,20 @@
 import fs from "fs-extra";
+import path from "path";
 import { fetchJson } from "./fetch-json";
 import { OpenAPIObject } from "./open-api-spec.interface";
 
-export async function run({
-  outDir,
-  source,
-}: {
-  outDir: string;
-  source: string;
-}) {
-  let swaggerJson: OpenAPIObject = (await fetchJson(source)) as OpenAPIObject;
+let importRequest = `import { request } from "@/utils/request"`;
+let swaggerJson: OpenAPIObject;
+let outDir: string;
+let source: string;
 
+export async function run(param: { outDir: string; source: string, banner?: string }) {
+  outDir = param.outDir;
+  source = param.source;
+  importRequest = param.banner || importRequest;
+  swaggerJson = (await fetchJson(source)) as OpenAPIObject;
+
+  fs.removeSync(outDir);
   fs.mkdirpSync(outDir);
 
   const tagMap: Record<string, any[]> = {
@@ -38,59 +42,38 @@ export async function run({
       list.push(`export ${reqModel}\n`);
       list.push(`export ${resModel}\n`);
       list.push(`export const ${name} = (params: ${reqModelName}) => {
-    return request<${resModelName}>({
-      url: "${url}",
-      method: "${method}",
-      data: params
-    });\n}`);
+  return request<${resModelName}>({
+    url: "${url}",
+    method: "${method}",
+    data: params
+  });\n}`);
     } else if (reqModel) {
       list.push(`export ${reqModel}\n`);
       list.push(`export const ${name} = (params: ${reqModelName}) => {
-    return request<{}>({
-      url: "${url}",
-      method: "${method}",
-      data: params
-    });\n}`);
+  return request<{}>({
+    url: "${url}",
+    method: "${method}",
+    data: params
+  });\n}`);
     } else if (resModel) {
       list.push(`export ${resModel}\n`);
       list.push(`export const ${name} = (params: {}) => {
-    return request<${resModelName}>({
-      url: "${url}",
-      method: "${method}",
-      data: params
-    });\n}`);
+  return request<${resModelName}>({
+    url: "${url}",
+    method: "${method}",
+    data: params
+  });\n}`);
     } else {
       list.push(`export const ${name} = (params: {}) => {
-    return request<{}>({
-      url: "${url}",
-      method: "${method}",
-      data: params
-    });\n}`);
+  return request<{}>({
+    url: "${url}",
+    method: "${method}",
+    data: params
+  });\n}`);
     }
 
     return list.join("\n");
   };
-
-  function parseRequestParams(path: string) {
-    const paths = path.replace("#/", "").split("/");
-    let res = swaggerJson as any;
-    let index = 0;
-    while (index < paths.length) {
-      res = res[paths[index]];
-      index++;
-    }
-
-    const { properties } = res;
-    let list: string[] = [];
-    Object.keys(properties).forEach((key) => {
-      list.push(`  ${key}: ${properties[key].type};`);
-    });
-    const name = paths[paths.length - 1];
-    return {
-      name: paths[paths.length - 1],
-      content: `interface ${name} {\n${list.join("\n")}\n}`,
-    };
-  }
 
   apiPaths.forEach((apiPath) => {
     const pathConf = apiPathMap[apiPath];
@@ -138,8 +121,66 @@ export async function run({
   Object.keys(tagMap).forEach((tag) => {
     fs.writeFileSync(
       `${outDir}/${tag}.ts`,
-      `import { request } from "@/utils/request";\n\n` +
-        tagMap[tag].join("\n\n")
+      `${importRequest};\n\n` + tagMap[tag].join("\n\n")
     );
   });
+}
+
+/**
+ * @description 解析 type schema
+ * @param path
+ * @returns
+ */
+function parseRequestParams(_path: string) {
+  const paths = _path.replace("#/", "").split("/");
+  let res = swaggerJson as any;
+  let index = 0;
+  while (index < paths.length) {
+    res = res[paths[index]];
+    index++;
+  }
+
+  const name = paths[paths.length - 1];
+  const { properties, type, required } = res;
+
+  let list: string[] = [];
+  Object.keys(properties).forEach((key) => {
+    const isRequired = (required || []).includes(key);
+    if (properties[key].type === "array") {
+      // 数组类型
+      if (properties[key].items && properties[key].items.$ref) {
+        const it = parseRequestParams(properties[key].items.$ref);
+        list.push(`  ${key}${isRequired ? "" : "?"}: ${it.declare}[];`);
+      } else {
+        list.push(`  ${key}${isRequired ? "" : "?"}: any[];`);
+      }
+    } else if (properties[key].type === "object") {
+      // 对象类型
+      if (properties[key].items.$ref) {
+        const it = parseRequestParams(properties[key].items.$ref);
+        list.push(`  ${key}${isRequired ? "" : "?"}: ${it.declare};`);
+      } else {
+        list.push(`  ${key}${isRequired ? "" : "?"}: {};`);
+      }
+    } else {
+      // 基本类型类型
+      list.push(`  ${key}${isRequired ? "" : "?"}: ${properties[key].type};`);
+    }
+  });
+
+  const content = `interface ${name} {\n${list.join("\n")}\n}`;
+
+  fs.writeFileSync(
+    path.resolve(process.cwd(), outDir, "types.ts"),
+    "export " + content + "\n\n",
+    {
+      flag: "a",
+    }
+  );
+
+  return {
+    name,
+    content,
+    declare: `{\n${list.join("\n")}\n}`,
+  };
 }

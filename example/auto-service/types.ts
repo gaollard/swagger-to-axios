@@ -1,5 +1,3 @@
-import { request } from "@/utils/request";
-
 export interface RegisterDto {
   account: string;
   password?: string;
@@ -25,14 +23,6 @@ export interface RegisterRes {
   token: string;
 }
 
-export const register = (params: RegisterDto) => {
-  return request<RegisterRes>({
-    url: "/account/register",
-    method: "POST",
-    data: params
-  });
-}
-
 export interface RegisterByAccountDto {
   account: string;
   password?: string;
@@ -54,14 +44,6 @@ export interface RegisterRes {
   background: string;
   status: boolean;
   token: string;
-}
-
-export const registerByAccount = (params: RegisterByAccountDto) => {
-  return request<RegisterRes>({
-    url: "/account/registerByAccount",
-    method: "POST",
-    data: params
-  });
 }
 
 export interface LoginDto {
@@ -90,14 +72,6 @@ export interface LoginRes {
   token: string;
 }
 
-export const login = (params: LoginDto) => {
-  return request<LoginRes>({
-    url: "/account/login",
-    method: "POST",
-    data: params
-  });
-}
-
 export interface PwdLoginDto {
   account: string;
   password: string;
@@ -119,14 +93,6 @@ export interface LoginRes {
   background: string;
   status: boolean;
   token: string;
-}
-
-export const pwdLogin = (params: PwdLoginDto) => {
-  return request<LoginRes>({
-    url: "/account/pwdLogin",
-    method: "POST",
-    data: params
-  });
 }
 
 export interface CodeLoginDTO {
@@ -152,32 +118,8 @@ export interface LoginRes {
   token: string;
 }
 
-export const codeLogin = (params: CodeLoginDTO) => {
-  return request<LoginRes>({
-    url: "/account/codeLogin",
-    method: "POST",
-    data: params
-  });
-}
-
-export const logout = (params: {}) => {
-  return request<{}>({
-    url: "/account/logout",
-    method: "POST",
-    data: params
-  });
-}
-
 export interface CheckLoginRes {
 
-}
-
-export const checkLogin = (params: {}) => {
-  return request<CheckLoginRes>({
-    url: "/account/checkLogin",
-    method: "POST",
-    data: params
-  });
 }
 
 export interface GetUserInfoRes {
@@ -197,14 +139,6 @@ export interface GetUserInfoRes {
   status: boolean;
 }
 
-export const getUserInfo = (params: {}) => {
-  return request<GetUserInfoRes>({
-    url: "/account/getUserInfo",
-    method: "POST",
-    data: params
-  });
-}
-
 export interface SendCodeDto {
 
 }
@@ -213,24 +147,8 @@ export interface SendCodeRes {
   status: boolean;
 }
 
-export const sendCode = (params: SendCodeDto) => {
-  return request<SendCodeRes>({
-    url: "/account/sendCode",
-    method: "POST",
-    data: params
-  });
-}
-
 export interface UpdateUserInfoDto {
 
-}
-
-export const updateUserInfo = (params: UpdateUserInfoDto) => {
-  return request<{}>({
-    url: "/account/updateUserInfo",
-    method: "POST",
-    data: params
-  });
 }
 
 export interface InitPasswordDto {
@@ -239,14 +157,6 @@ export interface InitPasswordDto {
 
 export interface InitPasswordRes {
   status: boolean;
-}
-
-export const initPassword = (params: InitPasswordDto) => {
-  return request<InitPasswordRes>({
-    url: "/account/initPassword",
-    method: "POST",
-    data: params
-  });
 }
 
 export interface UpdatePasswordDto {
@@ -258,10 +168,149 @@ export interface UpdatePwdRes {
   status: boolean;
 }
 
-export const updatePassword = (params: UpdatePasswordDto) => {
-  return request<UpdatePwdRes>({
-    url: "/account/updatePassword",
-    method: "POST",
-    data: params
-  });
+export interface QueryCommentListDTO {
+  pageSize?: number;
+  pageIndex?: number;
+  topic_type: string;
 }
+
+export interface CommentItemVo {
+  topic_type: string;
+  topic_id: number;
+  content: string;
+  images: string;
+  author_name: string;
+  author_avatar: string;
+}
+
+export interface QueryCommentListVo {
+  list: {
+  topic_type: string;
+  topic_id: number;
+  content: string;
+  images: string;
+  author_name: string;
+  author_avatar: string;
+}[];
+  total: number;
+}
+
+export interface AddCommentDTO {
+  topic_type: string;
+  topic_id: number;
+  content: string;
+  images: string;
+}
+
+export interface AddCommentVo {
+  topic_type: string;
+  topic_id: number;
+  content: string;
+  images: string;
+  author_name: string;
+  author_avatar: string;
+}
+
+export interface RemoveCommentDTO {
+  id: number;
+}
+
+export interface QueryReplyListDTO {
+  pageSize?: number;
+  pageIndex?: number;
+  comment_id: number;
+}
+
+export interface AddReplyDTO {
+  to_uid: number;
+  comment_id: number;
+  reply_type: string;
+  reply_id: number;
+  content: string;
+  images: string;
+}
+
+export interface RemoveReplyDTO {
+  id: number;
+}
+
+export interface QueryFeedTagDTO {
+  category_id?: number;
+}
+
+export interface RemoveFeedDTO {
+  id?: number;
+}
+
+export interface CreateFeedDTO {
+  title: string;
+  content: string;
+  images: string;
+  category_id: number;
+}
+
+export interface QueryFeedDTO {
+  pageSize?: number;
+  pageIndex?: number;
+  title?: string;
+  category_id?: string;
+}
+
+export interface SaveActionDTO {
+  entity_type: number;
+  action_type: number;
+  entity_id: number;
+  flag: number;
+}
+
+export interface QueryListForUserDTO {
+  pageSize?: number;
+  pageIndex?: number;
+  entity_type: number;
+  action_type: number;
+}
+
+export interface QueryStatusForUserDTO {
+  entity_type: number;
+  action_type: number;
+  entity_id: number;
+}
+
+export interface QueryCountForEntityDTO {
+  pageSize?: number;
+  pageIndex?: number;
+  entity_type: number;
+  action_type: number;
+  entity_id: number;
+}
+
+export interface QueryProjectTagDTO {
+  category_id?: number;
+}
+
+export interface RemoveProjectDTO {
+  id?: number;
+}
+
+export interface CreateProjectDTO {
+  id?: number;
+  user_id?: number;
+  title?: string;
+  skill?: string;
+  description?: string;
+  remark?: string;
+  reward?: number;
+  images?: string;
+  category_id?: number;
+  task_type?: number;
+  task_type_name?: string;
+}
+
+export interface QueryProjectDTO {
+  pageSize?: number;
+  pageIndex?: number;
+  title?: string;
+  task_type?: string;
+  category_id?: string;
+}
+
