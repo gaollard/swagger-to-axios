@@ -24,7 +24,7 @@ yarn add sjta -g
 sjta -o example/auto-service -s "http://task.airtlab.com/static/document.json"
 ```
 
-支持两个选项:
+支持选项:
 ```text
 -o --outDir # 输出目录，如果目录不存在，则自动创建目录
 -s --source # swagger json 文件目录, 如果以http开头，则为远程文件
