@@ -9,6 +9,8 @@ export interface RegisterDto {
 
 export interface RegisterRes {
   id: number;
+  create_time: string;
+  update_time: string;
   account: string;
   password: string;
   mobile: string;
@@ -23,6 +25,7 @@ export interface RegisterRes {
   background: string;
   status: boolean;
   token: string;
+  reputation: number;
 }
 
 export const register = (params: RegisterDto) => {
@@ -40,6 +43,8 @@ export interface RegisterByAccountDto {
 
 export interface RegisterRes {
   id: number;
+  create_time: string;
+  update_time: string;
   account: string;
   password: string;
   mobile: string;
@@ -54,6 +59,7 @@ export interface RegisterRes {
   background: string;
   status: boolean;
   token: string;
+  reputation: number;
 }
 
 export const registerByAccount = (params: RegisterByAccountDto) => {
@@ -74,6 +80,8 @@ export interface LoginDto {
 
 export interface LoginRes {
   id: number;
+  create_time: string;
+  update_time: string;
   account: string;
   password: string;
   mobile: string;
@@ -88,6 +96,7 @@ export interface LoginRes {
   background: string;
   status: boolean;
   token: string;
+  reputation: number;
 }
 
 export const login = (params: LoginDto) => {
@@ -105,6 +114,8 @@ export interface PwdLoginDto {
 
 export interface LoginRes {
   id: number;
+  create_time: string;
+  update_time: string;
   account: string;
   password: string;
   mobile: string;
@@ -119,6 +130,7 @@ export interface LoginRes {
   background: string;
   status: boolean;
   token: string;
+  reputation: number;
 }
 
 export const pwdLogin = (params: PwdLoginDto) => {
@@ -136,6 +148,8 @@ export interface CodeLoginDTO {
 
 export interface LoginRes {
   id: number;
+  create_time: string;
+  update_time: string;
   account: string;
   password: string;
   mobile: string;
@@ -150,6 +164,7 @@ export interface LoginRes {
   background: string;
   status: boolean;
   token: string;
+  reputation: number;
 }
 
 export const codeLogin = (params: CodeLoginDTO) => {
@@ -169,7 +184,8 @@ export const logout = (params: {}) => {
 }
 
 export interface CheckLoginRes {
-
+  status: boolean;
+  user: undefined;
 }
 
 export const checkLogin = (params: {}) => {
@@ -182,6 +198,8 @@ export const checkLogin = (params: {}) => {
 
 export interface GetUserInfoRes {
   id: number;
+  create_time: string;
+  update_time: string;
   account: string;
   password: string;
   mobile: string;
@@ -262,6 +280,30 @@ export const updatePassword = (params: UpdatePasswordDto) => {
   return request<UpdatePwdRes>({
     url: "/account/updatePassword",
     method: "POST",
+    data: params
+  });
+}
+
+export const queryWxLoginResult = (params: {}) => {
+  return request<{}>({
+    url: "/account/queryWxLoginResult",
+    method: "POST",
+    data: params
+  });
+}
+
+export const getWxQrCodeForAuthCode = (params: {}) => {
+  return request<{}>({
+    url: "/account/getWxQrCodeForAuthCode",
+    method: "POST",
+    data: params
+  });
+}
+
+export const wxLoginByAuthCode = (params: {}) => {
+  return request<{}>({
+    url: "/account/wxLoginByAuthCode",
+    method: "GET",
     data: params
   });
 }

@@ -7,6 +7,8 @@ export interface RegisterDto {
 
 export interface RegisterRes {
   id: number;
+  create_time: string;
+  update_time: string;
   account: string;
   password: string;
   mobile: string;
@@ -21,6 +23,7 @@ export interface RegisterRes {
   background: string;
   status: boolean;
   token: string;
+  reputation: number;
 }
 
 export interface RegisterByAccountDto {
@@ -30,6 +33,8 @@ export interface RegisterByAccountDto {
 
 export interface RegisterRes {
   id: number;
+  create_time: string;
+  update_time: string;
   account: string;
   password: string;
   mobile: string;
@@ -44,6 +49,7 @@ export interface RegisterRes {
   background: string;
   status: boolean;
   token: string;
+  reputation: number;
 }
 
 export interface LoginDto {
@@ -56,6 +62,8 @@ export interface LoginDto {
 
 export interface LoginRes {
   id: number;
+  create_time: string;
+  update_time: string;
   account: string;
   password: string;
   mobile: string;
@@ -70,6 +78,7 @@ export interface LoginRes {
   background: string;
   status: boolean;
   token: string;
+  reputation: number;
 }
 
 export interface PwdLoginDto {
@@ -79,6 +88,8 @@ export interface PwdLoginDto {
 
 export interface LoginRes {
   id: number;
+  create_time: string;
+  update_time: string;
   account: string;
   password: string;
   mobile: string;
@@ -93,6 +104,7 @@ export interface LoginRes {
   background: string;
   status: boolean;
   token: string;
+  reputation: number;
 }
 
 export interface CodeLoginDTO {
@@ -102,6 +114,8 @@ export interface CodeLoginDTO {
 
 export interface LoginRes {
   id: number;
+  create_time: string;
+  update_time: string;
   account: string;
   password: string;
   mobile: string;
@@ -116,14 +130,18 @@ export interface LoginRes {
   background: string;
   status: boolean;
   token: string;
+  reputation: number;
 }
 
 export interface CheckLoginRes {
-
+  status: boolean;
+  user: undefined;
 }
 
 export interface GetUserInfoRes {
   id: number;
+  create_time: string;
+  update_time: string;
   account: string;
   password: string;
   mobile: string;
@@ -172,25 +190,99 @@ export interface QueryCommentListDTO {
   pageSize?: number;
   pageIndex?: number;
   topic_type: string;
+  topic_id: number;
+}
+
+export interface ReplyItemVo {
+  id: number;
+  create_time: string;
+  update_time: string;
+  from_uid: number;
+  to_uid: number;
+  comment_id: number;
+  reply_type: string;
+  reply_id: number;
+  content: string;
+  images: string;
+  author_name: string;
+  author_avatar: string;
+}
+
+export interface QueryReplyListVo {
+  list: {
+  id: number;
+  create_time: string;
+  update_time: string;
+  from_uid: number;
+  to_uid: number;
+  comment_id: number;
+  reply_type: string;
+  reply_id: number;
+  content: string;
+  images: string;
+  author_name: string;
+  author_avatar: string;
+}[];
+  total: number;
 }
 
 export interface CommentItemVo {
+  id: number;
+  create_time: string;
+  update_time: string;
   topic_type: string;
   topic_id: number;
   content: string;
   images: string;
   author_name: string;
   author_avatar: string;
+  reply_info: {
+  list: {
+  id: number;
+  create_time: string;
+  update_time: string;
+  from_uid: number;
+  to_uid: number;
+  comment_id: number;
+  reply_type: string;
+  reply_id: number;
+  content: string;
+  images: string;
+  author_name: string;
+  author_avatar: string;
+}[];
+  total: number;
+};
 }
 
 export interface QueryCommentListVo {
   list: {
+  id: number;
+  create_time: string;
+  update_time: string;
   topic_type: string;
   topic_id: number;
   content: string;
   images: string;
   author_name: string;
   author_avatar: string;
+  reply_info: {
+  list: {
+  id: number;
+  create_time: string;
+  update_time: string;
+  from_uid: number;
+  to_uid: number;
+  comment_id: number;
+  reply_type: string;
+  reply_id: number;
+  content: string;
+  images: string;
+  author_name: string;
+  author_avatar: string;
+}[];
+  total: number;
+};
 }[];
   total: number;
 }
@@ -203,6 +295,9 @@ export interface AddCommentDTO {
 }
 
 export interface AddCommentVo {
+  id: number;
+  create_time: string;
+  update_time: string;
   topic_type: string;
   topic_id: number;
   content: string;
@@ -294,6 +389,8 @@ export interface RemoveProjectDTO {
 
 export interface CreateProjectDTO {
   id?: number;
+  create_time?: string;
+  update_time?: string;
   user_id?: number;
   title?: string;
   skill?: string;
@@ -301,9 +398,33 @@ export interface CreateProjectDTO {
   remark?: string;
   reward?: number;
   images?: string;
+  city?: string;
+  city_code?: string;
   category_id?: number;
   task_type?: number;
   task_type_name?: string;
+}
+
+export interface CreateProjectDTO {
+  id?: number;
+  create_time?: string;
+  update_time?: string;
+  user_id?: number;
+  title?: string;
+  skill?: string;
+  description?: string;
+  remark?: string;
+  reward?: number;
+  images?: string;
+  city?: string;
+  city_code?: string;
+  category_id?: number;
+  task_type?: number;
+  task_type_name?: string;
+}
+
+export interface ProjectUpdateVo {
+  status: boolean;
 }
 
 export interface QueryProjectDTO {
@@ -312,5 +433,97 @@ export interface QueryProjectDTO {
   title?: string;
   task_type?: string;
   category_id?: string;
+  id?: number;
+}
+
+export interface ProjectItemVo {
+  id: number;
+  create_time: string;
+  update_time: string;
+  user_id: number;
+  title: string;
+  skill: string;
+  description: string;
+  remark: string;
+  reward: number;
+  images: string;
+  city: string;
+  city_code: string;
+  category_id: number;
+  task_type: number;
+  task_type_name: string;
+  category_name: string;
+  author_name: string;
+  author_avatar: string;
+}
+
+export interface ProjectListVo {
+  total: number;
+  list: {
+  id: number;
+  create_time: string;
+  update_time: string;
+  user_id: number;
+  title: string;
+  skill: string;
+  description: string;
+  remark: string;
+  reward: number;
+  images: string;
+  city: string;
+  city_code: string;
+  category_id: number;
+  task_type: number;
+  task_type_name: string;
+  category_name: string;
+  author_name: string;
+  author_avatar: string;
+}[];
+}
+
+export interface QueryProjectDetailDTO {
+  id: number;
+}
+
+export interface ProjectItemVo {
+  id: number;
+  create_time: string;
+  update_time: string;
+  user_id: number;
+  title: string;
+  skill: string;
+  description: string;
+  remark: string;
+  reward: number;
+  images: string;
+  city: string;
+  city_code: string;
+  category_id: number;
+  task_type: number;
+  task_type_name: string;
+  category_name: string;
+  author_name: string;
+  author_avatar: string;
+}
+
+export interface AddrQueryListDTO {
+  pageSize?: number;
+  pageIndex?: number;
+}
+
+export interface AddrItemQueryDTO {
+
+}
+
+export interface AddrAddDTO {
+
+}
+
+export interface AddrDeleteDTO {
+
+}
+
+export interface AddrUpdateDTO {
+
 }
 

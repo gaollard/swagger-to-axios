@@ -301,6 +301,43 @@
         "tags": ["账户模块"]
       }
     },
+    "/account/queryWxLoginResult": {
+      "post": {
+        "operationId": "WxLoginController_queryWxLoginResult",
+        "parameters": [],
+        "responses": { "201": { "description": "" } },
+        "tags": ["账户模块"]
+      }
+    },
+    "/account/getWxQrCodeForAuthCode": {
+      "post": {
+        "operationId": "WxLoginController_wxLogin",
+        "parameters": [],
+        "responses": { "201": { "description": "" } },
+        "tags": ["账户模块"]
+      }
+    },
+    "/account/wxLoginByAuthCode": {
+      "get": {
+        "operationId": "WxLoginController_wxLoginByAuthCode",
+        "parameters": [
+          {
+            "name": "code",
+            "required": true,
+            "in": "query",
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "state",
+            "required": true,
+            "in": "query",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["账户模块"]
+      }
+    },
     "/comment/queryCommentList": {
       "post": {
         "operationId": "CommentController_queryCommentList",
@@ -431,7 +468,7 @@
         "tags": ["主题模块"]
       }
     },
-    "/feed/queryCategorys": {
+    "/feed/queryCategoryList": {
       "post": {
         "operationId": "FeedController_queryFeedCategorys",
         "parameters": [],
@@ -487,9 +524,34 @@
         "tags": ["主题模块"]
       }
     },
+    "/upload/get7niuToken": {
+      "post": {
+        "operationId": "UploadController_get7niuToken",
+        "parameters": [],
+        "responses": { "201": { "description": "" } },
+        "tags": ["上传模块"]
+      }
+    },
+    "/upload/files": {
+      "post": {
+        "operationId": "UploadController_uploadFiles",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "description": "多文件上传",
+          "content": {
+            "multipart/form-data": {
+              "schema": { "$ref": "#/components/schemas/FileUploadDto" }
+            }
+          }
+        },
+        "responses": { "201": { "description": "" } },
+        "tags": ["上传模块"]
+      }
+    },
     "/upload/file": {
       "post": {
-        "operationId": "UploadController_upload",
+        "operationId": "UploadController_uploadFile",
         "parameters": [],
         "requestBody": {
           "required": true,
@@ -610,7 +672,7 @@
         "tags": ["项目模块"]
       }
     },
-    "/project/queryCategorys": {
+    "/project/queryCategoryList": {
       "post": {
         "operationId": "ProjectController_queryProjectCategorys",
         "parameters": [],
@@ -650,6 +712,31 @@
         "tags": ["项目模块"]
       }
     },
+    "/project/updateProject": {
+      "post": {
+        "operationId": "ProjectController_updateProject",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/CreateProjectDTO" }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ProjectUpdateVo" }
+              }
+            }
+          }
+        },
+        "tags": ["项目模块"]
+      }
+    },
     "/project/queryList": {
       "post": {
         "operationId": "ProjectController_queryList",
@@ -662,8 +749,122 @@
             }
           }
         },
-        "responses": { "201": { "description": "" } },
+        "responses": {
+          "default": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ProjectListVo" }
+              }
+            }
+          }
+        },
         "tags": ["项目模块"]
+      }
+    },
+    "/project/queryDetail": {
+      "post": {
+        "operationId": "ProjectController_queryDetail",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/QueryProjectDetailDTO" }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ProjectItemVo" }
+              }
+            }
+          }
+        },
+        "tags": ["项目模块"]
+      }
+    },
+    "/address/queryAddrList": {
+      "post": {
+        "operationId": "AddressController_queryAddrList",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/AddrQueryListDTO" }
+            }
+          }
+        },
+        "responses": { "201": { "description": "" } },
+        "tags": ["地址管理"]
+      }
+    },
+    "/address/queryAddrDetail": {
+      "post": {
+        "operationId": "AddressController_queryAddrDetail",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/AddrItemQueryDTO" }
+            }
+          }
+        },
+        "responses": { "201": { "description": "" } },
+        "tags": ["地址管理"]
+      }
+    },
+    "/address/addAddr": {
+      "post": {
+        "operationId": "AddressController_addAddr",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/AddrAddDTO" }
+            }
+          }
+        },
+        "responses": { "201": { "description": "" } },
+        "tags": ["地址管理"]
+      }
+    },
+    "/address/deleteAddr": {
+      "post": {
+        "operationId": "AddressController_deleteAddr",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/AddrDeleteDTO" }
+            }
+          }
+        },
+        "responses": { "201": { "description": "" } },
+        "tags": ["地址管理"]
+      }
+    },
+    "/address/updateAddr": {
+      "post": {
+        "operationId": "AddressController_updateAddr",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/AddrUpdateDTO" }
+            }
+          }
+        },
+        "responses": { "201": { "description": "" } },
+        "tags": ["地址管理"]
       }
     }
   },
@@ -695,6 +896,8 @@
         "type": "object",
         "properties": {
           "id": { "type": "number" },
+          "create_time": { "format": "date-time", "type": "string" },
+          "update_time": { "format": "date-time", "type": "string" },
           "account": { "type": "string" },
           "password": { "type": "string" },
           "mobile": { "type": "string" },
@@ -708,10 +911,13 @@
           "introduction": { "type": "string" },
           "background": { "type": "string" },
           "status": { "type": "boolean" },
-          "token": { "type": "string" }
+          "token": { "type": "string" },
+          "reputation": { "type": "number" }
         },
         "required": [
           "id",
+          "create_time",
+          "update_time",
           "account",
           "password",
           "mobile",
@@ -725,7 +931,8 @@
           "introduction",
           "background",
           "status",
-          "token"
+          "token",
+          "reputation"
         ]
       },
       "RegisterByAccountDto": {
@@ -755,6 +962,8 @@
         "type": "object",
         "properties": {
           "id": { "type": "number" },
+          "create_time": { "format": "date-time", "type": "string" },
+          "update_time": { "format": "date-time", "type": "string" },
           "account": { "type": "string" },
           "password": { "type": "string" },
           "mobile": { "type": "string" },
@@ -768,10 +977,13 @@
           "introduction": { "type": "string" },
           "background": { "type": "string" },
           "status": { "type": "boolean" },
-          "token": { "type": "string" }
+          "token": { "type": "string" },
+          "reputation": { "type": "number" }
         },
         "required": [
           "id",
+          "create_time",
+          "update_time",
           "account",
           "password",
           "mobile",
@@ -785,7 +997,8 @@
           "introduction",
           "background",
           "status",
-          "token"
+          "token",
+          "reputation"
         ]
       },
       "PwdLoginDto": {
@@ -807,11 +1020,12 @@
         },
         "required": ["account", "code"]
       },
-      "CheckLoginRes": { "type": "object", "properties": {} },
-      "GetUserInfoRes": {
+      "UserEntity": {
         "type": "object",
         "properties": {
           "id": { "type": "number" },
+          "create_time": { "format": "date-time", "type": "string" },
+          "update_time": { "format": "date-time", "type": "string" },
           "account": { "type": "string" },
           "password": { "type": "string" },
           "mobile": { "type": "string" },
@@ -828,6 +1042,55 @@
         },
         "required": [
           "id",
+          "create_time",
+          "update_time",
+          "account",
+          "password",
+          "mobile",
+          "email",
+          "nickname",
+          "avatar",
+          "gender",
+          "birthday",
+          "city",
+          "college",
+          "introduction",
+          "background",
+          "status"
+        ]
+      },
+      "CheckLoginRes": {
+        "type": "object",
+        "properties": {
+          "status": { "type": "boolean" },
+          "user": { "$ref": "#/components/schemas/UserEntity" }
+        },
+        "required": ["status", "user"]
+      },
+      "GetUserInfoRes": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "number" },
+          "create_time": { "format": "date-time", "type": "string" },
+          "update_time": { "format": "date-time", "type": "string" },
+          "account": { "type": "string" },
+          "password": { "type": "string" },
+          "mobile": { "type": "string" },
+          "email": { "type": "string" },
+          "nickname": { "type": "string" },
+          "avatar": { "type": "string" },
+          "gender": { "type": "string" },
+          "birthday": { "type": "string" },
+          "city": { "type": "string" },
+          "college": { "type": "string" },
+          "introduction": { "type": "string" },
+          "background": { "type": "string" },
+          "status": { "type": "boolean" }
+        },
+        "required": [
+          "id",
+          "create_time",
+          "update_time",
           "account",
           "password",
           "mobile",
@@ -874,27 +1137,81 @@
         "properties": {
           "pageSize": { "type": "number", "title": "分页大小" },
           "pageIndex": { "type": "number", "title": "分页索引(从1开始)" },
-          "topic_type": { "type": "string", "enum": ["feed"] }
+          "topic_type": { "type": "string", "enum": ["feed", "project"] },
+          "topic_id": { "type": "number" }
         },
-        "required": ["topic_type"]
+        "required": ["topic_type", "topic_id"]
       },
-      "CommentItemVo": {
+      "ReplyItemVo": {
         "type": "object",
         "properties": {
-          "topic_type": { "type": "string" },
-          "topic_id": { "type": "number" },
+          "id": { "type": "number" },
+          "create_time": { "format": "date-time", "type": "string" },
+          "update_time": { "format": "date-time", "type": "string" },
+          "from_uid": { "type": "number" },
+          "to_uid": { "type": "number" },
+          "comment_id": { "type": "number" },
+          "reply_type": { "type": "string" },
+          "reply_id": { "type": "number" },
           "content": { "type": "string" },
           "images": { "type": "string" },
           "author_name": { "type": "string" },
           "author_avatar": { "type": "string" }
         },
         "required": [
+          "id",
+          "create_time",
+          "update_time",
+          "from_uid",
+          "to_uid",
+          "comment_id",
+          "reply_type",
+          "reply_id",
+          "content",
+          "images",
+          "author_name",
+          "author_avatar"
+        ]
+      },
+      "QueryReplyListVo": {
+        "type": "object",
+        "properties": {
+          "list": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/ReplyItemVo" }
+          },
+          "total": { "type": "number" }
+        },
+        "required": ["list", "total"]
+      },
+      "CommentItemVo": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "number" },
+          "create_time": { "format": "date-time", "type": "string" },
+          "update_time": { "format": "date-time", "type": "string" },
+          "topic_type": { "type": "string" },
+          "topic_id": { "type": "number" },
+          "content": { "type": "string" },
+          "images": { "type": "string" },
+          "author_name": { "type": "string" },
+          "author_avatar": { "type": "string" },
+          "reply_info": {
+            "description": "回复列表",
+            "allOf": [{ "$ref": "#/components/schemas/QueryReplyListVo" }]
+          }
+        },
+        "required": [
+          "id",
+          "create_time",
+          "update_time",
           "topic_type",
           "topic_id",
           "content",
           "images",
           "author_name",
-          "author_avatar"
+          "author_avatar",
+          "reply_info"
         ]
       },
       "QueryCommentListVo": {
@@ -911,7 +1228,7 @@
       "AddCommentDTO": {
         "type": "object",
         "properties": {
-          "topic_type": { "type": "string", "enum": ["feed"] },
+          "topic_type": { "type": "string", "enum": ["feed", "project"] },
           "topic_id": { "type": "number" },
           "content": { "type": "string" },
           "images": { "type": "string" }
@@ -921,6 +1238,9 @@
       "AddCommentVo": {
         "type": "object",
         "properties": {
+          "id": { "type": "number" },
+          "create_time": { "format": "date-time", "type": "string" },
+          "update_time": { "format": "date-time", "type": "string" },
           "topic_type": { "type": "string" },
           "topic_id": { "type": "number" },
           "content": { "type": "string" },
@@ -929,6 +1249,9 @@
           "author_avatar": { "type": "string" }
         },
         "required": [
+          "id",
+          "create_time",
+          "update_time",
           "topic_type",
           "topic_id",
           "content",
@@ -1063,6 +1386,8 @@
         "type": "object",
         "properties": {
           "id": { "type": "number" },
+          "create_time": { "format": "date-time", "type": "string" },
+          "update_time": { "format": "date-time", "type": "string" },
           "user_id": { "type": "number" },
           "title": { "type": "string" },
           "skill": { "type": "string" },
@@ -1070,10 +1395,17 @@
           "remark": { "type": "string" },
           "reward": { "type": "number" },
           "images": { "type": "string" },
+          "city": { "type": "string" },
+          "city_code": { "type": "string" },
           "category_id": { "type": "number" },
           "task_type": { "type": "number" },
           "task_type_name": { "type": "string" }
         }
+      },
+      "ProjectUpdateVo": {
+        "type": "object",
+        "properties": { "status": { "type": "boolean" } },
+        "required": ["status"]
       },
       "QueryProjectDTO": {
         "type": "object",
@@ -1082,9 +1414,80 @@
           "pageIndex": { "type": "number", "title": "分页索引(从1开始)" },
           "title": { "type": "string", "title": "标题搜索" },
           "task_type": { "type": "string", "title": "分类ID, 逗号分隔" },
-          "category_id": { "type": "string", "title": "分类ID, 逗号分隔" }
+          "category_id": { "type": "string", "title": "分类ID, 逗号分隔" },
+          "id": { "type": "number", "title": "分类ID, 逗号分隔" }
         }
-      }
+      },
+      "ProjectItemVo": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "number" },
+          "create_time": { "format": "date-time", "type": "string" },
+          "update_time": { "format": "date-time", "type": "string" },
+          "user_id": { "type": "number" },
+          "title": { "type": "string" },
+          "skill": { "type": "string" },
+          "description": { "type": "string" },
+          "remark": { "type": "string" },
+          "reward": { "type": "number" },
+          "images": { "type": "string" },
+          "city": { "type": "string" },
+          "city_code": { "type": "string" },
+          "category_id": { "type": "number" },
+          "task_type": { "type": "number" },
+          "task_type_name": { "type": "string" },
+          "category_name": { "type": "string" },
+          "author_name": { "type": "string" },
+          "author_avatar": { "type": "string" }
+        },
+        "required": [
+          "id",
+          "create_time",
+          "update_time",
+          "user_id",
+          "title",
+          "skill",
+          "description",
+          "remark",
+          "reward",
+          "images",
+          "city",
+          "city_code",
+          "category_id",
+          "task_type",
+          "task_type_name",
+          "category_name",
+          "author_name",
+          "author_avatar"
+        ]
+      },
+      "ProjectListVo": {
+        "type": "object",
+        "properties": {
+          "total": { "type": "number" },
+          "list": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/ProjectItemVo" }
+          }
+        },
+        "required": ["total", "list"]
+      },
+      "QueryProjectDetailDTO": {
+        "type": "object",
+        "properties": { "id": { "type": "number" } },
+        "required": ["id"]
+      },
+      "AddrQueryListDTO": {
+        "type": "object",
+        "properties": {
+          "pageSize": { "type": "number", "title": "分页大小" },
+          "pageIndex": { "type": "number", "title": "分页索引(从1开始)" }
+        }
+      },
+      "AddrItemQueryDTO": { "type": "object", "properties": {} },
+      "AddrAddDTO": { "type": "object", "properties": {} },
+      "AddrDeleteDTO": { "type": "object", "properties": {} },
+      "AddrUpdateDTO": { "type": "object", "properties": {} }
     }
   }
 }
