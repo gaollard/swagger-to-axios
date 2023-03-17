@@ -1,6 +1,6 @@
 {
   "name": "sjta",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "swagger json to axios",
   "main": "index.js",
   "scripts": {

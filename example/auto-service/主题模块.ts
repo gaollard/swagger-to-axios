@@ -12,9 +12,9 @@ export const queryTags = (params: QueryFeedTagDTO) => {
   });
 }
 
-export const queryCategorys = (params: {}) => {
+export const queryCategoryList = (params: {}) => {
   return request<{}>({
-    url: "/feed/queryCategorys",
+    url: "/feed/queryCategoryList",
     method: "POST",
     data: params
   });

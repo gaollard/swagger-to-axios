@@ -147,6 +147,15 @@ function parseRequestParams(_path) {
                 list.push(`  ${key}${isRequired ? "" : "?"}: {};`);
             }
         }
+        else if (properties[key].allOf) {
+            if (properties[key].allOf.length) {
+                const it = parseRequestParams(properties[key].allOf[0].$ref);
+                list.push(`  ${key}${isRequired ? "" : "?"}: ${it.declare};`);
+            }
+            else {
+                list.push(`  ${key}${isRequired ? "" : "?"}: {};`);
+            }
+        }
         else {
             // 基本类型类型
             list.push(`  ${key}${isRequired ? "" : "?"}: ${properties[key].type};`);
