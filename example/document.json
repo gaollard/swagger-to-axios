@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.0",
   "paths": {
-    "/account/register": {
+    "/api/account/register": {
       "post": {
         "operationId": "AccountController_register",
         "parameters": [],
@@ -26,7 +26,7 @@
         "tags": ["账户模块"]
       }
     },
-    "/account/registerByAccount": {
+    "/api/account/registerByAccount": {
       "post": {
         "operationId": "AccountController_registerByAccount",
         "parameters": [],
@@ -51,7 +51,7 @@
         "tags": ["账户模块"]
       }
     },
-    "/account/login": {
+    "/api/account/login": {
       "post": {
         "operationId": "AccountController_login",
         "parameters": [],
@@ -76,7 +76,7 @@
         "tags": ["账户模块"]
       }
     },
-    "/account/pwdLogin": {
+    "/api/account/pwdLogin": {
       "post": {
         "operationId": "AccountController_pwdLogin",
         "parameters": [],
@@ -101,7 +101,7 @@
         "tags": ["账户模块"]
       }
     },
-    "/account/codeLogin": {
+    "/api/account/codeLogin": {
       "post": {
         "operationId": "AccountController_codeLogin",
         "parameters": [],
@@ -126,7 +126,7 @@
         "tags": ["账户模块"]
       }
     },
-    "/account/logout": {
+    "/api/account/logout": {
       "post": {
         "operationId": "AccountController_logout",
         "parameters": [
@@ -141,7 +141,7 @@
         "tags": ["账户模块"]
       }
     },
-    "/account/checkLogin": {
+    "/api/account/checkLogin": {
       "post": {
         "operationId": "AccountController_checkLogin",
         "parameters": [
@@ -165,7 +165,7 @@
         "tags": ["账户模块"]
       }
     },
-    "/account/getUserInfo": {
+    "/api/account/getUserInfo": {
       "post": {
         "operationId": "AccountController_getUserInfo",
         "parameters": [
@@ -189,7 +189,7 @@
         "tags": ["账户模块"]
       }
     },
-    "/account/sendCode": {
+    "/api/account/sendCode": {
       "post": {
         "operationId": "AccountController_sendCode",
         "parameters": [],
@@ -214,7 +214,7 @@
         "tags": ["账户模块"]
       }
     },
-    "/account/updateUserInfo": {
+    "/api/account/updateUserInfo": {
       "post": {
         "operationId": "AccountController_updateUserInfo",
         "parameters": [
@@ -237,7 +237,7 @@
         "tags": ["账户模块"]
       }
     },
-    "/account/initPassword": {
+    "/api/account/initPassword": {
       "post": {
         "operationId": "AccountController_initPassword",
         "parameters": [
@@ -269,7 +269,7 @@
         "tags": ["账户模块"]
       }
     },
-    "/account/updatePassword": {
+    "/api/account/updatePassword": {
       "post": {
         "operationId": "AccountController_updatePassword",
         "parameters": [
@@ -301,7 +301,7 @@
         "tags": ["账户模块"]
       }
     },
-    "/account/queryWxLoginResult": {
+    "/api/account/queryWxLoginResult": {
       "post": {
         "operationId": "WxLoginController_queryWxLoginResult",
         "parameters": [],
@@ -309,36 +309,33 @@
         "tags": ["账户模块"]
       }
     },
-    "/account/getWxQrCodeForAuthCode": {
+    "/api/account/getWexinAuthUrl": {
       "post": {
         "operationId": "WxLoginController_wxLogin",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetWxQrCodeForAuthCodeDTO"
+              }
+            }
+          }
+        },
+        "responses": { "201": { "description": "" } },
+        "tags": ["账户模块"]
+      }
+    },
+    "/api/account/wexinLoginByAuthCode": {
+      "post": {
+        "operationId": "WxLoginController_wxLoginByAuthCode",
         "parameters": [],
         "responses": { "201": { "description": "" } },
         "tags": ["账户模块"]
       }
     },
-    "/account/wxLoginByAuthCode": {
-      "get": {
-        "operationId": "WxLoginController_wxLoginByAuthCode",
-        "parameters": [
-          {
-            "name": "code",
-            "required": true,
-            "in": "query",
-            "schema": { "type": "string" }
-          },
-          {
-            "name": "state",
-            "required": true,
-            "in": "query",
-            "schema": { "type": "string" }
-          }
-        ],
-        "responses": { "200": { "description": "" } },
-        "tags": ["账户模块"]
-      }
-    },
-    "/comment/queryCommentList": {
+    "/api/comment/queryCommentList": {
       "post": {
         "operationId": "CommentController_queryCommentList",
         "parameters": [],
@@ -363,7 +360,7 @@
         "tags": ["评论模块"]
       }
     },
-    "/comment/addComment": {
+    "/api/comment/addComment": {
       "post": {
         "operationId": "CommentController_addComment",
         "parameters": [],
@@ -388,7 +385,7 @@
         "tags": ["评论模块"]
       }
     },
-    "/comment/removeComment": {
+    "/api/comment/removeComment": {
       "post": {
         "operationId": "CommentController_removeComment",
         "parameters": [],
@@ -404,7 +401,7 @@
         "tags": ["评论模块"]
       }
     },
-    "/comment/queryReplyList": {
+    "/api/comment/queryReplyList": {
       "post": {
         "operationId": "CommentController_queryReplyList",
         "parameters": [],
@@ -416,11 +413,20 @@
             }
           }
         },
-        "responses": { "201": { "description": "" } },
+        "responses": {
+          "default": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/QueryReplyListVo" }
+              }
+            }
+          }
+        },
         "tags": ["评论模块"]
       }
     },
-    "/comment/addReply": {
+    "/api/comment/addReply": {
       "post": {
         "operationId": "CommentController_addReply",
         "parameters": [],
@@ -436,7 +442,7 @@
         "tags": ["评论模块"]
       }
     },
-    "/comment/removeReply": {
+    "/api/comment/removeReply": {
       "post": {
         "operationId": "CommentController_removeReply",
         "parameters": [],
@@ -452,7 +458,7 @@
         "tags": ["评论模块"]
       }
     },
-    "/feed/queryTags": {
+    "/api/feed/queryTags": {
       "post": {
         "operationId": "FeedController_queryTags",
         "parameters": [],
@@ -468,7 +474,7 @@
         "tags": ["主题模块"]
       }
     },
-    "/feed/queryCategoryList": {
+    "/api/feed/queryCategoryList": {
       "post": {
         "operationId": "FeedController_queryFeedCategorys",
         "parameters": [],
@@ -476,7 +482,7 @@
         "tags": ["主题模块"]
       }
     },
-    "/feed/remove": {
+    "/api/feed/remove": {
       "post": {
         "operationId": "FeedController_remove",
         "parameters": [],
@@ -492,7 +498,7 @@
         "tags": ["主题模块"]
       }
     },
-    "/feed/create": {
+    "/api/feed/create": {
       "post": {
         "operationId": "FeedController_create",
         "parameters": [],
@@ -508,7 +514,7 @@
         "tags": ["主题模块"]
       }
     },
-    "/feed/queryList": {
+    "/api/feed/queryList": {
       "post": {
         "operationId": "FeedController_queryList",
         "parameters": [],
@@ -524,7 +530,7 @@
         "tags": ["主题模块"]
       }
     },
-    "/upload/get7niuToken": {
+    "/api/upload/get7niuToken": {
       "post": {
         "operationId": "UploadController_get7niuToken",
         "parameters": [],
@@ -532,7 +538,7 @@
         "tags": ["上传模块"]
       }
     },
-    "/upload/files": {
+    "/api/upload/files": {
       "post": {
         "operationId": "UploadController_uploadFiles",
         "parameters": [],
@@ -549,7 +555,7 @@
         "tags": ["上传模块"]
       }
     },
-    "/upload/file": {
+    "/api/upload/file": {
       "post": {
         "operationId": "UploadController_uploadFile",
         "parameters": [],
@@ -566,7 +572,7 @@
         "tags": ["上传模块"]
       }
     },
-    "/track/saveActionForUser": {
+    "/api/track/saveActionForUser": {
       "post": {
         "operationId": "TrackController_saveActionForUser",
         "parameters": [],
@@ -582,7 +588,7 @@
         "tags": ["数据采集"]
       }
     },
-    "/track/queryListForUser": {
+    "/api/track/queryListForUser": {
       "post": {
         "operationId": "TrackController_queryListForUser",
         "parameters": [],
@@ -598,7 +604,7 @@
         "tags": ["数据采集"]
       }
     },
-    "/track/queryStatusForUser": {
+    "/api/track/queryStatusForUser": {
       "post": {
         "operationId": "TrackController_queryStatusForUser",
         "parameters": [],
@@ -614,7 +620,7 @@
         "tags": ["数据采集"]
       }
     },
-    "/track/queryCountForEntity": {
+    "/api/track/queryCountForEntity": {
       "post": {
         "operationId": "TrackController_queryCountForEntity",
         "parameters": [],
@@ -632,7 +638,7 @@
         "tags": ["数据采集"]
       }
     },
-    "/ping/test": {
+    "/api/ping/test": {
       "get": {
         "operationId": "PingController_test",
         "parameters": [],
@@ -640,7 +646,7 @@
         "tags": ["健康检查"]
       }
     },
-    "/ping/mongo": {
+    "/api/ping/mongo": {
       "get": {
         "operationId": "PingController_getHello",
         "parameters": [],
@@ -648,7 +654,7 @@
         "tags": ["健康检查"]
       }
     },
-    "/ping/redirect": {
+    "/api/ping/redirect": {
       "get": {
         "operationId": "PingController_redirect",
         "parameters": [],
@@ -656,7 +662,7 @@
         "tags": ["健康检查"]
       }
     },
-    "/project/queryTags": {
+    "/api/project/queryTags": {
       "post": {
         "operationId": "ProjectController_queryTags",
         "parameters": [],
@@ -672,7 +678,7 @@
         "tags": ["项目模块"]
       }
     },
-    "/project/queryCategoryList": {
+    "/api/project/queryCategoryList": {
       "post": {
         "operationId": "ProjectController_queryProjectCategorys",
         "parameters": [],
@@ -680,7 +686,7 @@
         "tags": ["项目模块"]
       }
     },
-    "/project/remove": {
+    "/api/project/remove": {
       "post": {
         "operationId": "ProjectController_remove",
         "parameters": [],
@@ -696,7 +702,7 @@
         "tags": ["项目模块"]
       }
     },
-    "/project/create": {
+    "/api/project/create": {
       "post": {
         "operationId": "ProjectController_create",
         "parameters": [],
@@ -712,7 +718,7 @@
         "tags": ["项目模块"]
       }
     },
-    "/project/updateProject": {
+    "/api/project/updateProject": {
       "post": {
         "operationId": "ProjectController_updateProject",
         "parameters": [],
@@ -737,7 +743,7 @@
         "tags": ["项目模块"]
       }
     },
-    "/project/queryList": {
+    "/api/project/queryList": {
       "post": {
         "operationId": "ProjectController_queryList",
         "parameters": [],
@@ -762,7 +768,7 @@
         "tags": ["项目模块"]
       }
     },
-    "/project/queryDetail": {
+    "/api/project/queryDetail": {
       "post": {
         "operationId": "ProjectController_queryDetail",
         "parameters": [],
@@ -787,7 +793,7 @@
         "tags": ["项目模块"]
       }
     },
-    "/address/queryAddrList": {
+    "/api/address/queryAddrList": {
       "post": {
         "operationId": "AddressController_queryAddrList",
         "parameters": [],
@@ -803,7 +809,7 @@
         "tags": ["地址管理"]
       }
     },
-    "/address/queryAddrDetail": {
+    "/api/address/queryAddrDetail": {
       "post": {
         "operationId": "AddressController_queryAddrDetail",
         "parameters": [],
@@ -819,7 +825,7 @@
         "tags": ["地址管理"]
       }
     },
-    "/address/addAddr": {
+    "/api/address/addAddr": {
       "post": {
         "operationId": "AddressController_addAddr",
         "parameters": [],
@@ -835,7 +841,7 @@
         "tags": ["地址管理"]
       }
     },
-    "/address/deleteAddr": {
+    "/api/address/deleteAddr": {
       "post": {
         "operationId": "AddressController_deleteAddr",
         "parameters": [],
@@ -851,7 +857,7 @@
         "tags": ["地址管理"]
       }
     },
-    "/address/updateAddr": {
+    "/api/address/updateAddr": {
       "post": {
         "operationId": "AddressController_updateAddr",
         "parameters": [],
@@ -865,6 +871,25 @@
         },
         "responses": { "201": { "description": "" } },
         "tags": ["地址管理"]
+      }
+    },
+    "/api/general/getCity": {
+      "post": {
+        "operationId": "GeneralController_getCity",
+        "parameters": [],
+        "responses": {
+          "default": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/CityNode" }
+                }
+              }
+            }
+          }
+        }
       }
     }
   },
@@ -1132,11 +1157,17 @@
         "properties": { "status": { "type": "boolean" } },
         "required": ["status"]
       },
+      "GetWxQrCodeForAuthCodeDTO": {
+        "type": "object",
+        "properties": { "redirect": { "type": "string" } },
+        "required": ["redirect"]
+      },
       "QueryCommentListDTO": {
         "type": "object",
         "properties": {
           "pageSize": { "type": "number", "title": "分页大小" },
           "pageIndex": { "type": "number", "title": "分页索引(从1开始)" },
+          "skip": { "type": "number", "title": "查询便宜" },
           "topic_type": { "type": "string", "enum": ["feed", "project"] },
           "topic_id": { "type": "number" }
         },
@@ -1180,9 +1211,10 @@
             "type": "array",
             "items": { "$ref": "#/components/schemas/ReplyItemVo" }
           },
-          "total": { "type": "number" }
+          "total": { "type": "number" },
+          "has_more": { "type": "boolean" }
         },
-        "required": ["list", "total"]
+        "required": ["list", "total", "has_more"]
       },
       "CommentItemVo": {
         "type": "object",
@@ -1190,6 +1222,7 @@
           "id": { "type": "number" },
           "create_time": { "format": "date-time", "type": "string" },
           "update_time": { "format": "date-time", "type": "string" },
+          "from_uid": { "type": "number" },
           "topic_type": { "type": "string" },
           "topic_id": { "type": "number" },
           "content": { "type": "string" },
@@ -1205,10 +1238,10 @@
           "id",
           "create_time",
           "update_time",
+          "from_uid",
           "topic_type",
           "topic_id",
           "content",
-          "images",
           "author_name",
           "author_avatar",
           "reply_info"
@@ -1233,7 +1266,7 @@
           "content": { "type": "string" },
           "images": { "type": "string" }
         },
-        "required": ["topic_type", "topic_id", "content", "images"]
+        "required": ["topic_type", "topic_id", "content"]
       },
       "AddCommentVo": {
         "type": "object",
@@ -1241,6 +1274,7 @@
           "id": { "type": "number" },
           "create_time": { "format": "date-time", "type": "string" },
           "update_time": { "format": "date-time", "type": "string" },
+          "from_uid": { "type": "number" },
           "topic_type": { "type": "string" },
           "topic_id": { "type": "number" },
           "content": { "type": "string" },
@@ -1252,10 +1286,10 @@
           "id",
           "create_time",
           "update_time",
+          "from_uid",
           "topic_type",
           "topic_id",
           "content",
-          "images",
           "author_name",
           "author_avatar"
         ]
@@ -1270,6 +1304,7 @@
         "properties": {
           "pageSize": { "type": "number", "title": "分页大小" },
           "pageIndex": { "type": "number", "title": "分页索引(从1开始)" },
+          "skip": { "type": "number", "title": "查询便宜" },
           "comment_id": { "type": "number" }
         },
         "required": ["comment_id"]
@@ -1289,8 +1324,7 @@
           "comment_id",
           "reply_type",
           "reply_id",
-          "content",
-          "images"
+          "content"
         ]
       },
       "RemoveReplyDTO": {
@@ -1321,6 +1355,7 @@
         "properties": {
           "pageSize": { "type": "number", "title": "分页大小" },
           "pageIndex": { "type": "number", "title": "分页索引(从1开始)" },
+          "skip": { "type": "number", "title": "查询便宜" },
           "title": { "type": "string", "title": "标题搜索" },
           "category_id": { "type": "string", "title": "分类ID, 逗号分隔" }
         }
@@ -1349,6 +1384,7 @@
         "properties": {
           "pageSize": { "type": "number", "title": "分页大小" },
           "pageIndex": { "type": "number", "title": "分页索引(从1开始)" },
+          "skip": { "type": "number", "title": "查询便宜" },
           "entity_type": { "type": "number", "description": "实体类型" },
           "action_type": { "type": "number", "description": "操作类型" }
         },
@@ -1368,6 +1404,7 @@
         "properties": {
           "pageSize": { "type": "number", "title": "分页大小" },
           "pageIndex": { "type": "number", "title": "分页索引(从1开始)" },
+          "skip": { "type": "number", "title": "查询便宜" },
           "entity_type": { "type": "number", "description": "实体类型" },
           "action_type": { "type": "number", "description": "操作类型" },
           "entity_id": { "type": "number", "description": "实体ID" }
@@ -1412,6 +1449,7 @@
         "properties": {
           "pageSize": { "type": "number", "title": "分页大小" },
           "pageIndex": { "type": "number", "title": "分页索引(从1开始)" },
+          "skip": { "type": "number", "title": "查询便宜" },
           "title": { "type": "string", "title": "标题搜索" },
           "task_type": { "type": "string", "title": "分类ID, 逗号分隔" },
           "category_id": { "type": "string", "title": "分类ID, 逗号分隔" },
@@ -1481,13 +1519,26 @@
         "type": "object",
         "properties": {
           "pageSize": { "type": "number", "title": "分页大小" },
-          "pageIndex": { "type": "number", "title": "分页索引(从1开始)" }
+          "pageIndex": { "type": "number", "title": "分页索引(从1开始)" },
+          "skip": { "type": "number", "title": "查询便宜" }
         }
       },
       "AddrItemQueryDTO": { "type": "object", "properties": {} },
       "AddrAddDTO": { "type": "object", "properties": {} },
       "AddrDeleteDTO": { "type": "object", "properties": {} },
-      "AddrUpdateDTO": { "type": "object", "properties": {} }
+      "AddrUpdateDTO": { "type": "object", "properties": {} },
+      "CityNode": {
+        "type": "object",
+        "properties": {
+          "value": { "type": "string" },
+          "text": { "type": "string" },
+          "children": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/CityNode" }
+          }
+        },
+        "required": ["value", "text"]
+      }
     }
   }
 }

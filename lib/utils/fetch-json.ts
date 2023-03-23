@@ -1,5 +1,5 @@
-import request from "request";
 import fs from 'fs';
+import request from "request";
 
 export async function fetchJson(source: string) {
   return new Promise((resolve, reject) => {
@@ -14,6 +14,7 @@ export async function fetchJson(source: string) {
         (err, res) => {
           if (err) {
             reject(err);
+            process.exit(1)
           } else {
             resolve(JSON.parse(res.body));
           }
