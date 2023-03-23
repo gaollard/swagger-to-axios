@@ -1,11 +1,11 @@
-export interface RegisterDto {
+declare interface RegisterDto {
   account: string;
   password?: string;
   code?: string;
   registerType: string;
 }
 
-export interface RegisterRes {
+declare interface RegisterRes {
   id: number;
   create_time: string;
   update_time: string;
@@ -26,33 +26,12 @@ export interface RegisterRes {
   reputation: number;
 }
 
-export interface RegisterByAccountDto {
+declare interface RegisterByAccountDto {
   account: string;
   password?: string;
 }
 
-export interface RegisterRes {
-  id: number;
-  create_time: string;
-  update_time: string;
-  account: string;
-  password: string;
-  mobile: string;
-  email: string;
-  nickname: string;
-  avatar: string;
-  gender: string;
-  birthday: string;
-  city: string;
-  college: string;
-  introduction: string;
-  background: string;
-  status: boolean;
-  token: string;
-  reputation: number;
-}
-
-export interface LoginDto {
+declare interface LoginDto {
   account: string;
   password?: string;
   code?: string;
@@ -60,7 +39,7 @@ export interface LoginDto {
   loginType: string;
 }
 
-export interface LoginRes {
+declare interface LoginRes {
   id: number;
   create_time: string;
   update_time: string;
@@ -81,64 +60,22 @@ export interface LoginRes {
   reputation: number;
 }
 
-export interface PwdLoginDto {
+declare interface PwdLoginDto {
   account: string;
   password: string;
 }
 
-export interface LoginRes {
-  id: number;
-  create_time: string;
-  update_time: string;
-  account: string;
-  password: string;
-  mobile: string;
-  email: string;
-  nickname: string;
-  avatar: string;
-  gender: string;
-  birthday: string;
-  city: string;
-  college: string;
-  introduction: string;
-  background: string;
-  status: boolean;
-  token: string;
-  reputation: number;
-}
-
-export interface CodeLoginDTO {
+declare interface CodeLoginDTO {
   account: string;
   code: string;
 }
 
-export interface LoginRes {
-  id: number;
-  create_time: string;
-  update_time: string;
-  account: string;
-  password: string;
-  mobile: string;
-  email: string;
-  nickname: string;
-  avatar: string;
-  gender: string;
-  birthday: string;
-  city: string;
-  college: string;
-  introduction: string;
-  background: string;
-  status: boolean;
-  token: string;
-  reputation: number;
-}
-
-export interface CheckLoginRes {
+declare interface CheckLoginRes {
   status: boolean;
   user: undefined;
 }
 
-export interface GetUserInfoRes {
+declare interface GetUserInfoRes {
   id: number;
   create_time: string;
   update_time: string;
@@ -157,43 +94,48 @@ export interface GetUserInfoRes {
   status: boolean;
 }
 
-export interface SendCodeDto {
+declare interface SendCodeDto {
 
 }
 
-export interface SendCodeRes {
+declare interface SendCodeRes {
   status: boolean;
 }
 
-export interface UpdateUserInfoDto {
+declare interface UpdateUserInfoDto {
 
 }
 
-export interface InitPasswordDto {
+declare interface InitPasswordDto {
 
 }
 
-export interface InitPasswordRes {
+declare interface InitPasswordRes {
   status: boolean;
 }
 
-export interface UpdatePasswordDto {
+declare interface UpdatePasswordDto {
   password: string;
   newPassword: string;
 }
 
-export interface UpdatePwdRes {
+declare interface UpdatePwdRes {
   status: boolean;
 }
 
-export interface QueryCommentListDTO {
+declare interface GetWxQrCodeForAuthCodeDTO {
+  redirect: string;
+}
+
+declare interface QueryCommentListDTO {
   pageSize?: number;
   pageIndex?: number;
+  skip?: number;
   topic_type: string;
   topic_id: number;
 }
 
-export interface ReplyItemVo {
+declare interface ReplyItemVo {
   id: number;
   create_time: string;
   update_time: string;
@@ -208,7 +150,7 @@ export interface ReplyItemVo {
   author_avatar: string;
 }
 
-export interface QueryReplyListVo {
+declare interface QueryReplyListVo {
   list: {
   id: number;
   create_time: string;
@@ -224,16 +166,18 @@ export interface QueryReplyListVo {
   author_avatar: string;
 }[];
   total: number;
+  has_more: boolean;
 }
 
-export interface CommentItemVo {
+declare interface CommentItemVo {
   id: number;
   create_time: string;
   update_time: string;
+  from_uid: number;
   topic_type: string;
   topic_id: number;
   content: string;
-  images: string;
+  images?: string;
   author_name: string;
   author_avatar: string;
   reply_info: {
@@ -252,18 +196,20 @@ export interface CommentItemVo {
   author_avatar: string;
 }[];
   total: number;
+  has_more: boolean;
 };
 }
 
-export interface QueryCommentListVo {
+declare interface QueryCommentListVo {
   list: {
   id: number;
   create_time: string;
   update_time: string;
+  from_uid: number;
   topic_type: string;
   topic_id: number;
   content: string;
-  images: string;
+  images?: string;
   author_name: string;
   author_avatar: string;
   reply_info: {
@@ -282,112 +228,118 @@ export interface QueryCommentListVo {
   author_avatar: string;
 }[];
   total: number;
+  has_more: boolean;
 };
 }[];
   total: number;
 }
 
-export interface AddCommentDTO {
+declare interface AddCommentDTO {
   topic_type: string;
   topic_id: number;
   content: string;
-  images: string;
+  images?: string;
 }
 
-export interface AddCommentVo {
+declare interface AddCommentVo {
   id: number;
   create_time: string;
   update_time: string;
+  from_uid: number;
   topic_type: string;
   topic_id: number;
   content: string;
-  images: string;
+  images?: string;
   author_name: string;
   author_avatar: string;
 }
 
-export interface RemoveCommentDTO {
+declare interface RemoveCommentDTO {
   id: number;
 }
 
-export interface QueryReplyListDTO {
+declare interface QueryReplyListDTO {
   pageSize?: number;
   pageIndex?: number;
+  skip?: number;
   comment_id: number;
 }
 
-export interface AddReplyDTO {
+declare interface AddReplyDTO {
   to_uid: number;
   comment_id: number;
   reply_type: string;
   reply_id: number;
   content: string;
-  images: string;
+  images?: string;
 }
 
-export interface RemoveReplyDTO {
+declare interface RemoveReplyDTO {
   id: number;
 }
 
-export interface QueryFeedTagDTO {
+declare interface QueryFeedTagDTO {
   category_id?: number;
 }
 
-export interface RemoveFeedDTO {
+declare interface RemoveFeedDTO {
   id?: number;
 }
 
-export interface CreateFeedDTO {
+declare interface CreateFeedDTO {
   title: string;
   content: string;
   images: string;
   category_id: number;
 }
 
-export interface QueryFeedDTO {
+declare interface QueryFeedDTO {
   pageSize?: number;
   pageIndex?: number;
+  skip?: number;
   title?: string;
   category_id?: string;
 }
 
-export interface SaveActionDTO {
+declare interface SaveActionDTO {
   entity_type: number;
   action_type: number;
   entity_id: number;
   flag: number;
 }
 
-export interface QueryListForUserDTO {
+declare interface QueryListForUserDTO {
   pageSize?: number;
   pageIndex?: number;
+  skip?: number;
   entity_type: number;
   action_type: number;
 }
 
-export interface QueryStatusForUserDTO {
+declare interface QueryStatusForUserDTO {
   entity_type: number;
   action_type: number;
   entity_id: number;
 }
 
-export interface QueryCountForEntityDTO {
+declare interface QueryCountForEntityDTO {
   pageSize?: number;
   pageIndex?: number;
+  skip?: number;
   entity_type: number;
   action_type: number;
   entity_id: number;
 }
 
-export interface QueryProjectTagDTO {
+declare interface QueryProjectTagDTO {
   category_id?: number;
 }
 
-export interface RemoveProjectDTO {
+declare interface RemoveProjectDTO {
   id?: number;
 }
 
-export interface CreateProjectDTO {
+declare interface CreateProjectDTO {
   id?: number;
   create_time?: string;
   update_time?: string;
@@ -405,38 +357,21 @@ export interface CreateProjectDTO {
   task_type_name?: string;
 }
 
-export interface CreateProjectDTO {
-  id?: number;
-  create_time?: string;
-  update_time?: string;
-  user_id?: number;
-  title?: string;
-  skill?: string;
-  description?: string;
-  remark?: string;
-  reward?: number;
-  images?: string;
-  city?: string;
-  city_code?: string;
-  category_id?: number;
-  task_type?: number;
-  task_type_name?: string;
-}
-
-export interface ProjectUpdateVo {
+declare interface ProjectUpdateVo {
   status: boolean;
 }
 
-export interface QueryProjectDTO {
+declare interface QueryProjectDTO {
   pageSize?: number;
   pageIndex?: number;
+  skip?: number;
   title?: string;
   task_type?: string;
   category_id?: string;
   id?: number;
 }
 
-export interface ProjectItemVo {
+declare interface ProjectItemVo {
   id: number;
   create_time: string;
   update_time: string;
@@ -457,7 +392,7 @@ export interface ProjectItemVo {
   author_avatar: string;
 }
 
-export interface ProjectListVo {
+declare interface ProjectListVo {
   total: number;
   list: {
   id: number;
@@ -481,49 +416,35 @@ export interface ProjectListVo {
 }[];
 }
 
-export interface QueryProjectDetailDTO {
+declare interface QueryProjectDetailDTO {
   id: number;
 }
 
-export interface ProjectItemVo {
-  id: number;
-  create_time: string;
-  update_time: string;
-  user_id: number;
-  title: string;
-  skill: string;
-  description: string;
-  remark: string;
-  reward: number;
-  images: string;
-  city: string;
-  city_code: string;
-  category_id: number;
-  task_type: number;
-  task_type_name: string;
-  category_name: string;
-  author_name: string;
-  author_avatar: string;
-}
-
-export interface AddrQueryListDTO {
+declare interface AddrQueryListDTO {
   pageSize?: number;
   pageIndex?: number;
+  skip?: number;
 }
 
-export interface AddrItemQueryDTO {
-
-}
-
-export interface AddrAddDTO {
+declare interface AddrItemQueryDTO {
 
 }
 
-export interface AddrDeleteDTO {
+declare interface AddrAddDTO {
 
 }
 
-export interface AddrUpdateDTO {
+declare interface AddrDeleteDTO {
 
+}
+
+declare interface AddrUpdateDTO {
+
+}
+
+declare interface CityNode {
+  value: string;
+  text: string;
+  children?: CityNode[];
 }
 

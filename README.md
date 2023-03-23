@@ -40,3 +40,6 @@ sjta -o example/auto-service -s "http://task.airtlab.com/static/document.json"
 ```shell
 sjta -o example/auto-service -s "./example/document.json"
 ```
+
+## 调试
+npx ts-node lib/entry -o example/auto-service -s ./example/document.json
