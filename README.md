@@ -10,18 +10,21 @@
 
 ## 用法
 
-局部安装：
+**安装**
 ```shell
-# 安装
+# 局部安装
 yarn add sjta
-# 使用
-npx sjta -o example/auto-service -s "http://task.airtlab.com/static/document.json"
+# 全局安装
+yarn add sjta -g
 ```
 
-全局安装：
+**使用**
 ```shell
-yarn add sjta -g
+# 全局安装时
 sjta -o example/auto-service -s "http://task.airtlab.com/static/document.json"
+
+# 局部安装时
+npx sjta -o example/auto-service -s "http://task.airtlab.com/static/document.json"
 ```
 
 支持选项:
