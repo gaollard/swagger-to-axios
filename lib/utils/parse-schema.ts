@@ -54,6 +54,8 @@ export function parseType({
           });
           list.push(`  ${key}${isRequired ? '' : '?'}: ${it.declare}[];`);
         }
+      } else if (properties[key].items && properties[key].items.type) {
+        list.push(`  ${key}${isRequired ? '' : '?'}: ${properties[key].items.type}[];`);
       } else {
         list.push(`  ${key}${isRequired ? '' : '?'}: any[];`);
       }
