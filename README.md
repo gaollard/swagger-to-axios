@@ -1,4 +1,4 @@
-# swagger-json-to-axios
+# swagger-to-axios
 根据 swagger json schema 生成 Frontend API Config 文件。
 
 ## 特性
