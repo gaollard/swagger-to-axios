@@ -1,7 +1,9 @@
 # swagger-to-axios
+
 根据 swagger json schema 生成 Frontend API Config 文件。
 
 ## 特性
+
 - 仅支持 swagger json v3
 - 按照 tag 划分为多个文件
 - 支持参数类型标注 以及 返回值类型标注
@@ -43,6 +45,20 @@ sjta -o example/auto-service -s "http://task.airtlab.com/static/document.json"
 ```shell
 sjta -o example/auto-service -s "./example/document.json"
 ```
+
+## 配置文件
+
+工作目录下 `sjta.config.json`
+
+```json
+{
+  "banner": "import { request } from \"@/utils/request\"",
+  "request_method": "request"
+}
+```
+
+- banner 顶部内容
+- request_method 发起请求的方法
 
 ## 调试
 npx ts-node lib/entry -o example/auto-service -s ./example/document.json

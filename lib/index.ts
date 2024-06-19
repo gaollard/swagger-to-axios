@@ -4,8 +4,9 @@ import { fetchJson } from './utils/fetch-json';
 import { IParseType } from './interface/IParseType';
 import { OpenAPIObject } from './interface/open-api-spec.interface';
 import { parseType } from './utils/parse-schema';
+import config from './config';
 
-let importRequest = `import { request } from "@/utils/request"`;
+let importRequest = config.banner;
 let docs: OpenAPIObject;
 let outDir: string;
 let source: string;

@@ -1,3 +1,5 @@
+import config from "../config";
+
 export function genAPI(
   name: string,
   url: string,
@@ -11,24 +13,25 @@ export function genAPI(
 ) {
   const { reqModel, reqModelName, resModel, resModelName } = options;
   const list = [];
+  const methodName = config.requestMethod;
 
   const callContent = `({\n    url: "${url}",\n    method: "${method}",\n    data: params\n  })`;
 
   if (reqModel && resModel) {
     list.push(
-      `export const ${name} = (params: ${reqModelName}) => {\n  return request<${resModelName}>${callContent};\n}`,
+      `export const ${name} = (params: ${reqModelName}) => {\n  return ${methodName}<${resModelName}>${callContent};\n}`,
     );
   } else if (reqModel) {
     list.push(
-      `export const ${name} = (params: ${reqModelName}) => {\n  return request<{}>${callContent};\n}`,
+      `export const ${name} = (params: ${reqModelName}) => {\n  return ${methodName}<{}>${callContent};\n}`,
     );
   } else if (resModel) {
     list.push(
-      `export const ${name} = (params: {}) => {\n  return request<${resModelName}>${callContent};\n}`,
+      `export const ${name} = (params: {}) => {\n  return ${methodName}<${resModelName}>${callContent};\n}`,
     );
   } else {
     list.push(
-      `export const ${name} = (params: {}) => {\n  return request<{}>${callContent};\n}`,
+      `export const ${name} = (params: {}) => {\n  return ${methodName}<{}>${callContent};\n}`,
     );
   }
 
