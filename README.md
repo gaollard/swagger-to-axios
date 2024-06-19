@@ -53,12 +53,12 @@ sjta -o example/auto-service -s "./example/document.json"
 ```json
 {
   "banner": "import { request } from \"@/utils/request\"",
-  "request_method": "request"
+  "requestMethod": "request"
 }
 ```
 
 - banner 顶部内容
-- request_method 发起请求的方法
+- requestMethod 发起请求的方法
 
 ## 调试
 npx ts-node lib/entry -o example/auto-service -s ./example/document.json

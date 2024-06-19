@@ -1,4 +1,4 @@
 {
   "banner": "import { request } from \"@/utils/request\"",
-  "request_method": "request"
+  "requestMethod": "request"
 }
